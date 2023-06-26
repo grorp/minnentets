@@ -44,7 +44,7 @@ jobs:
       fail-fast: false
       matrix:
         config:
-           {
+          - {
               arch: x64,
               generator: "-G'Visual Studio 16 2019' -A x64",
               vcpkg_triplet: x64-windows
