@@ -56,17 +56,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Checkout IrrlichtMt
-        run: |
-          $ref = @(Get-Content misc\irrlichtmt_tag.txt)
-          git clone https://github.com/minetest/irrlicht lib\irrlichtmt --depth 1 -b $ref[0]
-
       - name: Run vcpkg
         uses: lukka/run-vcpkg@v11
         with:
           vcpkgDirectory: '${{ github.workspace }}\vcpkg'
-          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT }}
+          vcpkgGitCommitId: '${{ env.VCPKG_COMMIT }}'
           runVcpkgInstall: true
+          runVcpkgFormatString: '[`install`, `--recurse`, `--clean-after-build`, `--x-install-root`, `$[env.VCPKG_INSTALLED_DIR]`, `--triplet`, `$[env.VCPKG_DEFAULT_TRIPLET]`, `--verbose`]'
+
+      - name: Checkout IrrlichtMt
+        run: |
+          $ref = @(Get-Content misc\irrlichtmt_tag.txt)
+          git clone https://github.com/minetest/irrlicht lib\irrlichtmt --depth 1 -b $ref[0]
 
       - name: Minetest CMake
         run: |
