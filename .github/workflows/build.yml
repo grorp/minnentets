@@ -37,9 +37,8 @@ jobs:
     name: VS 2019 ${{ matrix.config.arch }}-${{ matrix.type }}
     runs-on: windows-2019
     env:
-      VCPKG_VERSION: f6a5d4e8eb7476b8d7fc12a56dff300c1c986131
       # 2023.06.20
-      VCPKG_PACKAGES: zlib zstd curl[winssl] openal-soft libvorbis libogg libjpeg-turbo sqlite3 freetype luajit gmp jsoncpp opengl-registry
+      VCPKG_COMMIT: f6a5d4e8eb7476b8d7fc12a56dff300c1c986131
     strategy:
       fail-fast: false
       matrix:
@@ -62,14 +61,12 @@ jobs:
           $ref = @(Get-Content misc\irrlichtmt_tag.txt)
           git clone https://github.com/minetest/irrlicht lib\irrlichtmt --depth 1 -b $ref[0]
 
-      - name: Restore from cache and run vcpkg
+      - name: Run vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgArguments: ${{env.VCPKG_PACKAGES}}
           vcpkgDirectory: '${{ github.workspace }}\vcpkg'
-          appendedCacheKey: ${{ matrix.config.vcpkg_triplet }}
-          vcpkgGitCommitId: ${{ env.VCPKG_VERSION }}
-          vcpkgTriplet: ${{ matrix.config.vcpkg_triplet }}
+          vcpkgGitCommitId: ${{ env.VCPKG_COMMIT }}
+          runVcpkgInstall: true
 
       - name: Minetest CMake
         run: |
@@ -79,6 +76,7 @@ jobs:
           -DENABLE_POSTGRESQL=OFF  `
           -DENABLE_LUAJIT=TRUE  `
           -DREQUIRE_LUAJIT=TRUE  `
+          -DENABLE_GETTEXT=TRUE  `
           -DRUN_IN_PLACE=${{ contains(matrix.type, 'portable') }} .
 
       - name: Build Minetest
