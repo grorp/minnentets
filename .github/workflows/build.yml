@@ -64,7 +64,7 @@ jobs:
           vcpkgDirectory: '${{ github.workspace }}\vcpkg'
           vcpkgGitCommitId: '${{ env.VCPKG_COMMIT }}'
           runVcpkgInstall: true
-          runVcpkgFormatString: '[`install`, `--recurse`, `--clean-after-build`, `--x-install-root`, `$[env.VCPKG_INSTALLED_DIR]`, `--triplet`, `$[matrix.config.vcpkg_triplet]`]'
+          # runVcpkgFormatString: '[`install`, `--recurse`, `--clean-after-build`, `--x-install-root`, `$[env.VCPKG_INSTALLED_DIR]`, `--triplet`, `$[matrix.config.vcpkg_triplet]`]'
 
       - name: Checkout IrrlichtMt
         run: |
