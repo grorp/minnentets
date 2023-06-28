@@ -41,6 +41,7 @@ jobs:
     env:
       # 2023.06.20
       VCPKG_COMMIT: f6a5d4e8eb7476b8d7fc12a56dff300c1c986131
+      vVCPKG_DEFAULT_TRIPLET: ${{ matrix.config.vcpkg_triplet }}
     strategy:
       fail-fast: false
       matrix:
@@ -64,9 +65,9 @@ jobs:
           vcpkgDirectory: '${{ github.workspace }}\vcpkg'
           vcpkgGitCommitId: '${{ env.VCPKG_COMMIT }}'
           runVcpkgInstall: true
-          # mostly adapted from the default value
+          # the default value
           # https://github.com/lukka/run-cmake-vcpkg-action-libs/blob/803aa6955b03f6738b65fcaec620fcccd5ca160e/packages/run-vcpkg-lib/src/vcpkg-runner.ts#L13
-          runVcpkgFormatString: '[`install`, `--recurse`, `--clean-after-build`, `--x-install-root`, `$[env.VCPKG_INSTALLED_DIR]`, `--triplet`, `${{ matrix.config.vcpkg_triplet }}]`]'
+          runVcpkgFormatString: '[`install`, `--recurse`, `--clean-after-build`, `--x-install-root`, `$[env.VCPKG_INSTALLED_DIR]`, `--triplet`, `$[env.VCPKG_DEFAULT_TRIPLET]`]'
 
       - name: Checkout IrrlichtMt
         run: |
