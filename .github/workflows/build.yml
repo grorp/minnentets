@@ -59,6 +59,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Set
+        run: set
+
       - name: Run vcpkg
         uses: lukka/run-vcpkg@v11
         with:
@@ -67,7 +70,7 @@ jobs:
           runVcpkgInstall: true
           # the default value
           # https://github.com/lukka/run-cmake-vcpkg-action-libs/blob/803aa6955b03f6738b65fcaec620fcccd5ca160e/packages/run-vcpkg-lib/src/vcpkg-runner.ts#L13
-          runVcpkgFormatString: '[`install`, `--recurse`, `--clean-after-build`, `--x-install-root`, `$[env.VCPKG_INSTALLED_DIR]`, `--triplet`, `$[env.VCPKG_DEFAULT_TRIPLET]`]'
+          runVcpkgFormatString: '[`install`, `--recurse`, `--clean-after-build`, `--x-install-root`, `$[env.VCPKG_INSTALLED_DIR]`, `--triplet`, `$[env.VCPKG_DEFAULT_TRIPLET]`, `--debug-env`]'
 
       - name: Checkout IrrlichtMt
         run: |
